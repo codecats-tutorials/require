@@ -1,0 +1,38 @@
+{% load static staticfiles compress %}
+
+
+Hello
+<div id="content">script no working</div>
+{% compress js %}
+<script type="text/javascript" src="{% static 'js/require.js' %}"></script>
+<script>
+        require.config({
+            baseUrl: '{{ STATIC_URL }}js',
+            {% if True %}
+            urlArgs: "_=" + (new Date()).getTime(),
+            {%  endif %}
+            'paths': {
+                //'jquery': "components/jquery-wrapper",         // point to jQuery wrapper which return AMD module from window.jQuery object (see below why we don't use jQuery AMD itself)
+                'bootstrap': "lib/bootstrap",
+                'helper': 'helpers/cr-bootstrap',        // application helper for presentation layer
+                'logger': 'components/logger',           // logger engine
+                'tpl': 'lib/plate',                      // templates engine (plate.js - Django templating engine for JS)
+                'text': 'requirejs/text',                 // path to RequireJS text plugin
+                'backbone': 'lib/backbone',
+                'underscore': 'lib/underscore',
+                'moment': 'lib/moment'
+            },
+            //'deps': ['jquery'],                         // force to load jQuery here, to avoid bug when jQuery is loaded by CMS Toolbar
+            'shim': {
+                'bootstrap': {
+                    'deps': ['jquery']
+                },
+                'lib/bloodhound': {
+                    'deps': ['jquery'],
+                    'exports': 'Bloodhound'
+                }
+            }
+        });
+</script>
+<script type="text/requirejs" src="{% static 'js/main-built.js' %}"></script>
+{% endcompress %}

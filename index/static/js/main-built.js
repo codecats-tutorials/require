@@ -1,0 +1,1 @@
+define("widget/test",[],function(){console.log("yeah"),document.querySelector("#content").innerHTML="Script works"}),function(){require(["widget/test"],function(){console.log("main")})}(),define("main.js",function(){});
